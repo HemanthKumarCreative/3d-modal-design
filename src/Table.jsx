@@ -4,10 +4,10 @@ import Table from "./models/table.glb";
 import { useControls } from "leva";
 import { Color, TextureLoader } from "three";
 import Floor from "./tableTextures/Floor.png";
-import Leaves from "./tableTextures/Floor.png";
-import Potato from "./tableTextures/Floor.png";
-import WhiteBoard from "./tableTextures/Floor.png";
-import WoodBoard from "./tableTextures/Floor.png";
+import Leaves from "./tableTextures/Leaves.png";
+import Potato from "./tableTextures/Potato.png";
+import WhiteBoard from "./tableTextures/WhiteBoard.png";
+import WoodBoard from "./tableTextures/WoodBoard.png";
 
 export function Model(props) {
   const { nodes, materials } = useGLTF(Table);
