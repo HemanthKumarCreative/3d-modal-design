@@ -2,6 +2,13 @@
   "name": "3d-modal-design",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "@react-three/fiber": "latest",
+    "r3f-pack": "^2.8.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "three": "latest"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -9,7 +16,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@react-three/drei": "^9.105.6",
+    "leva": "0.9.34"
   },
   "scripts": {
     "start": "react-scripts start",
