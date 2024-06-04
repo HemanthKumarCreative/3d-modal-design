@@ -1,0 +1,304 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 1847,
+      "max": [
+        0.4232461154460907,
+        0.2458612322807312,
+        0.6618490219116211
+      ],
+      "min": [
+        -0.4232461154460907,
+        -0.24715226888656616,
+        -0.022683842107653618
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 22164,
+      "componentType": 5126,
+      "count": 1847,
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 1847,
+      "max": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 1847,
+      "max": [
+        0.9950150847434998,
+        1
+      ],
+      "min": [
+        0.003651946783065796,
+        0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 14776,
+      "componentType": 5126,
+      "count": 1847,
+      "max": [
+        0.5899727940559387,
+        1.3418561220169067
+      ],
+      "min": [
+        -0.18453967571258545,
+        -0.08402514457702637
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 7158,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Pedro Silva (https://sketchfab.com/pxdrosilva)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/wood-table-with-drawer-aa49db8a801d402dac6cf1579536502c",
+      "title": "Wood Table with Drawer"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 28632,
+      "name": "floatBufferViews",
+      "target": 34963,
+      "byteOffset": 0
+    },
+    {
+      "buffer": 0,
+      "byteLength": 29552,
+      "byteOffset": 28632,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 44328,
+      "byteOffset": 58184,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 29552,
+      "byteOffset": 102512,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "woodTable_data.bin",
+      "byteLength": 132064
+    }
+  ],
+  "images": [
+    {
+      "uri": "woodTable_img0.png"
+    },
+    {
+      "uri": "woodTable_img1.png"
+    },
+    {
+      "uri": "woodTable_img2.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Table_1",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Table_Table 1_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        3.828568672208042e-16,
+        -1,
+        0,
+        0,
+        1,
+        3.828568672208042e-16,
+        0,
+        0,
+        3.315698826611434e-9,
+        -4.5519779945379923e-8,
+        1
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.009999999776482582,
+        0,
+        0,
+        -0.009999999776482582,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "83e78f549f954f2baa75c504483205eb.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "matrix": [
+        100,
+        0,
+        0,
+        0,
+        0,
+        -0.00001629206793918314,
+        -99.99999999999868,
+        0,
+        0,
+        99.99999999999868,
+        -0.00001629206793918314,
+        0,
+        0.00002384185791015625,
+        2.5019190311431885,
+        0.0000029802322387695312,
+        1
+      ],
+      "name": "Table"
+    },
+    {
+      "mesh": 0,
+      "name": "Table_Table 1_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}

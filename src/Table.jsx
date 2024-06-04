@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
-import Table from "./models/table.glb";
 import { useControls } from "leva";
 import { Color, TextureLoader } from "three";
+import Table from "./models/table.glb";
 import Floor from "./tableTextures/Floor.png";
 import Leaves from "./tableTextures/Leaves.png";
 import Potato from "./tableTextures/Potato.png";
 import WhiteBoard from "./tableTextures/WhiteBoard.png";
 import WoodBoard from "./tableTextures/WoodBoard.png";
+import WoodWorn from "./tableTextures/WoodWorn.jpg";
+import woodDisp from "./tableTextures/WoodDisp.png";
+
+import { Box } from "@react-three/drei";
+import * as THREE from "three";
+import DrawerNib from "./DrawerNib";
+import Drawer from "./Drawer";
 
 export function Model(props) {
   const { nodes, materials } = useGLTF(Table);
   const [hovered, setHovered] = useState(false);
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     document.body.style.cursor = hovered ? "pointer" : "auto";
   }, [hovered]);
@@ -20,11 +27,13 @@ export function Model(props) {
   // Load textures
   const textureLoader = new TextureLoader();
   const texturePaths = [
+    { path: WoodWorn, title: "White Worn" },
+    { path: WoodBoard, title: "Wood Board" },
+    { path: woodDisp, title: "White Disp" },
     { path: Floor, title: "Floor" },
     { path: Leaves, title: "Leaves" },
     { path: Potato, title: "Potato" },
     { path: WhiteBoard, title: "White Board" },
-    { path: WoodBoard, title: "Wood Board" },
   ];
   const textures = texturePaths.map((texture) =>
     textureLoader.load(texture.path)
@@ -59,8 +68,7 @@ export function Model(props) {
     const colorPickers = {};
     Object.keys(materials).forEach((m) => {
       colorPickers[m] = {
-        value:
-          "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0"),
+        value: "#deb887",
         onChange: (v) => {
           materials[m].color = new Color(v);
         },
@@ -71,9 +79,9 @@ export function Model(props) {
 
   // Controls for table dimensions
   const { length, width, height } = useControls("Table Dimensions", {
-    length: { value: 1, min: 0.1, max: 10, step: 0.1 },
-    width: { value: 1, min: 0.1, max: 10, step: 0.1 },
-    height: { value: 1, min: 0.1, max: 10, step: 0.1 },
+    length: { value: 1, min: 1, max: 10, step: 0.1 },
+    width: { value: 1, min: 1, max: 10, step: 0.1 },
+    height: { value: 1, min: 1, max: 10, step: 0.1 },
   });
 
   return (
@@ -86,8 +94,10 @@ export function Model(props) {
         e.stopPropagation();
         document
           .getElementById("Table Color." + e.object.material.name)
-          .focus();
+          ?.focus();
       }}
+      position={[0, 0, 0]}
+      rotation={[0, -Math.PI / 2, -Math.PI / 7]}
     >
       <mesh
         geometry={nodes.Cube.geometry}
@@ -99,6 +109,18 @@ export function Model(props) {
         material={materials.Material}
         scale={[length, height, width]}
       />
+      <group>
+        <Drawer
+          scale={[length, height, width]}
+          open={open}
+          material={materials.Material}
+        />
+        <DrawerNib
+          scale={[length, height, width]}
+          setOpen={setOpen}
+          open={open}
+        />
+      </group>
     </group>
   );
 }
