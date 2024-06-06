@@ -17,6 +17,11 @@ function TableDrawer(props) {
     config: { tension: 50, friction: 50 },
   });
 
+  const { posXClosed } = useSpring({
+    posXClosed: open ? 0.7 + positionX : 0.35 + positionX,
+    config: { tension: 170, friction: 26 },
+  });
+
   const drawerPosition = useMemo(() => {
     switch (props.count) {
       case 1:
@@ -50,7 +55,7 @@ function TableDrawer(props) {
 
   return (
     <a.group
-      position-x={open === true ? posX : 0.35 + positionX}
+      position-x={open === true ? posX : posXClosed}
       position-y={0.26 + positionZ}
       position-z={drawerPosition}
       rotation={[1.58, 0, 0]}
