@@ -6,7 +6,7 @@ const TableDrawer = (props) => {
   const mesh = useRef();
   const { scale, open, material } = props;
   const outerGeometry = useMemo(
-    () => new THREE.BoxGeometry(0.5, 0.17, 0.5), // Adjust dimensions as needed
+    () => new THREE.BoxGeometry(0.68, 0.17, 0.68), // Adjust dimensions as needed
     []
   );
 
@@ -26,7 +26,7 @@ const TableDrawer = (props) => {
         geometry={outerGeometry}
         material={material}
         position={[
-          open ? 0.7 + positionX : -0.03 + positionX,
+          open ? 0.7 + positionX : positionX,
           0.26 + positionZ,
           props?.count === 1
             ? props.i
