@@ -87,8 +87,9 @@ export function Model(props) {
     let drawers = [];
     for (let i = 0; i < count; i++) {
       const drawer = (
-        <group>
+        <group key="table-drawer-section">
           <TableDrawer
+            key="table-drawer"
             referenceNode={nodes.Cube002.geometry}
             material={materials.Material}
             open={open}
@@ -98,6 +99,7 @@ export function Model(props) {
             count={count}
           />
           <Drawer
+            key="table-draw-holder"
             scale={[length, height, width]}
             material={materials.Material}
             i={i}
@@ -124,16 +126,19 @@ export function Model(props) {
       }}
       position={[0, 0, 0]}
       rotation={[0, -Math.PI / 2, -Math.PI / 7]}
+      key="table-group"
     >
       <mesh
         geometry={nodes.Cube.geometry}
         material={materials.Material}
         scale={[length, height, width]}
+        key="table-top"
       />
       <mesh
         geometry={nodes.Cube002.geometry}
         material={materials.Material}
         scale={[length, height, width]}
+        key="table-ring"
       />
       {renderDrawers(Math.floor(width))}
     </group>
