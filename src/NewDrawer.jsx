@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import { a, useSpring } from "@react-spring/three";
 import Dresser2 from "./models/dresser2.glb";
@@ -9,52 +9,50 @@ function TableDrawer(props) {
 
   const { scale } = props;
 
-  const positionX = -0.35 * (1 - scale[0]);
-  const positionZ = -0.3 * (1 - scale[1]);
+  const positionX = useMemo(() => -0.35 * (1 - scale[0]), [scale]);
+  const positionZ = useMemo(() => -0.3 * (1 - scale[1]), [scale]);
 
-  const { position } = useSpring({
-    position: open
-      ? [0.7 + positionX, 0.26 + positionZ, 0]
-      : [0.35 + positionX, 0.26 + positionZ, 0],
+  const { posX } = useSpring({
+    posX: open ? 0.7 + positionX : 0.35 + positionX,
     config: { tension: 50, friction: 50 },
   });
 
-  const drawerPosition =
-    props?.count === 1
-      ? props.i
-      : props?.count === 2
-      ? props?.i === 0
-        ? -0.3
-        : 0.3
-      : props?.count === 3
-      ? props?.i === 0
-        ? -0.6
-        : props?.i === 1
-        ? 0
-        : 0.6
-      : props?.count === 4
-      ? props?.i === 0
-        ? -0.9
-        : props?.i === 1
-        ? -0.3
-        : props?.i === 2
-        ? 0.3
-        : 0.9
-      : props?.count === 5
-      ? props?.i === 0
-        ? -1.2
-        : props?.i === 1
-        ? -0.6
-        : props?.i === 2
-        ? 0
-        : props?.i === 3
-        ? 0.6
-        : 1.2
-      : 0;
+  const drawerPosition = useMemo(() => {
+    switch (props.count) {
+      case 1:
+        return 0;
+      case 2:
+        return props.i === 0 ? -0.3 : 0.3;
+      case 3:
+        return props.i === 0 ? -0.6 : props.i === 1 ? 0 : 0.6;
+      case 4:
+        return props.i === 0
+          ? -0.9
+          : props.i === 1
+          ? -0.3
+          : props.i === 2
+          ? 0.3
+          : 0.9;
+      case 5:
+        return props.i === 0
+          ? -1.2
+          : props.i === 1
+          ? -0.6
+          : props.i === 2
+          ? 0
+          : props.i === 3
+          ? 0.6
+          : 1.2;
+      default:
+        return 0;
+    }
+  }, [props.count, props.i]);
 
   return (
     <a.group
-      position={position.to((x, y, z) => [x, y, drawerPosition])}
+      position-x={open === true ? posX : 0.35 + positionX}
+      position-y={0.26 + positionZ}
+      position-z={drawerPosition}
       rotation={[1.58, 0, 0]}
       scale={[0.0035, 0.0035, 0.0035]}
     >
