@@ -3,23 +3,22 @@ import { useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import { Color, TextureLoader } from "three";
 import Table from "./models/table.glb";
-import Floor from "./tableTextures/Floor.png";
-import Leaves from "./tableTextures/Leaves.png";
-import Potato from "./tableTextures/Potato.png";
-import WhiteBoard from "./tableTextures/WhiteBoard.png";
-import WoodBoard from "./tableTextures/WoodBoard.png";
-import WoodWorn from "./tableTextures/WoodWorn.jpg";
-import woodDisp from "./tableTextures/WoodDisp.png";
 
-import { Box } from "@react-three/drei";
-import * as THREE from "three";
-import DrawerNib from "./DrawerNib";
+import DarkWood from "./tableTextures/DarkWood.jpg";
+import FloorWood from "./tableTextures/FloorWood.png";
+import LeafPattern from "./tableTextures/LeafPattern.jpg";
+import OakWood from "./tableTextures/OakWood.jpg";
+import RingPattern from "./tableTextures/RingPattern.jpg";
+import RoseWood from "./tableTextures/RoseWood.jpg";
+import WornWood from "./tableTextures/WornWood.jpg";
+import TableDrawer from "./NewDrawer";
 import Drawer from "./Drawer";
 
 export function Model(props) {
   const { nodes, materials } = useGLTF(Table);
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     document.body.style.cursor = hovered ? "pointer" : "auto";
   }, [hovered]);
@@ -27,13 +26,13 @@ export function Model(props) {
   // Load textures
   const textureLoader = new TextureLoader();
   const texturePaths = [
-    { path: WoodWorn, title: "White Worn" },
-    { path: WoodBoard, title: "Wood Board" },
-    { path: woodDisp, title: "White Disp" },
-    { path: Floor, title: "Floor" },
-    { path: Leaves, title: "Leaves" },
-    { path: Potato, title: "Potato" },
-    { path: WhiteBoard, title: "White Board" },
+    { path: OakWood, title: "Oak Wood" },
+    { path: RoseWood, title: "Rose Wood" },
+    { path: LeafPattern, title: "Leaf Pattern" },
+    { path: RingPattern, title: "Strip Pattern" },
+    { path: DarkWood, title: "Dark Wood" },
+    { path: WornWood, title: "Worn Wood" },
+    { path: FloorWood, title: "Floor Wood" },
   ];
   const textures = texturePaths.map((texture) =>
     textureLoader.load(texture.path)
@@ -79,10 +78,37 @@ export function Model(props) {
 
   // Controls for table dimensions
   const { length, width, height } = useControls("Table Dimensions", {
-    length: { value: 1, min: 1, max: 10, step: 0.1 },
-    width: { value: 1, min: 1, max: 10, step: 0.1 },
-    height: { value: 1, min: 1, max: 10, step: 0.1 },
+    length: { value: 1, min: 1, max: 5, step: 0.1 },
+    width: { value: 1, min: 1, max: 5, step: 0.1 },
+    height: { value: 1, min: 1, max: 5, step: 0.1 },
   });
+
+  const renderDrawers = (count) => {
+    let drawers = [];
+    for (let i = 0; i < count; i++) {
+      const drawer = (
+        <group>
+          <TableDrawer
+            referenceNode={nodes.Cube002.geometry}
+            material={materials.Material}
+            open={open}
+            setOpen={setOpen}
+            scale={[length, height, width]}
+            i={i}
+            count={count}
+          />
+          <Drawer
+            scale={[length, height, width]}
+            material={materials.Material}
+            i={i}
+            count={count}
+          />
+        </group>
+      );
+      drawers.push(drawer);
+    }
+    return drawers;
+  };
 
   return (
     <group
@@ -109,18 +135,7 @@ export function Model(props) {
         material={materials.Material}
         scale={[length, height, width]}
       />
-      <group>
-        <Drawer
-          scale={[length, height, width]}
-          open={open}
-          material={materials.Material}
-        />
-        <DrawerNib
-          scale={[length, height, width]}
-          setOpen={setOpen}
-          open={open}
-        />
-      </group>
+      {renderDrawers(Math.floor(width))}
     </group>
   );
 }

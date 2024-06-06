@@ -2,26 +2,17 @@ import * as THREE from "three";
 import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 
-const TableDrawer = ({ scale, open }) => {
+const TableDrawer = (props) => {
   const mesh = useRef();
-
-  const geometry = useMemo(
-    () => new THREE.BoxGeometry(0.4, 0.1, 0.15), // Adjust dimensions as needed
-    []
-  );
-  const material = useMemo(
-    () =>
-      new THREE.MeshPhysicalMaterial({
-        color: "yellow",
-        metalness: 0.2, // Adjusted metalness for a metal drawer handle
-        roughness: 0.4, // Adjusted roughness for a smoother surface
-      }),
+  const { scale, open, material } = props;
+  const outerGeometry = useMemo(
+    () => new THREE.BoxGeometry(0.5, 0.17, 0.5), // Adjust dimensions as needed
     []
   );
 
-  // Calculate the position to move the drawer based on the scale factor
   const positionX = -0.35 * (1 - scale[0]);
   const positionZ = -0.3 * (1 - scale[1]);
+
   useFrame(() => {
     if (mesh.current) {
       // Your animation or rotation logic here
@@ -29,18 +20,50 @@ const TableDrawer = ({ scale, open }) => {
   });
 
   return (
-    <mesh
-      ref={mesh}
-      geometry={geometry}
-      material={material}
-      position={[
-        open ? 0.4 + positionX : 0.27 + positionX,
-        0.25 + positionZ,
-        -0.02,
-      ]} // Adjusted position to better fit the scene
-      rotation={[0, Math.PI / 2, 0]} // Rotate the drawer to make it horizontal
-      //   scale={scale}
-    />
+    <group>
+      <mesh
+        ref={mesh}
+        geometry={outerGeometry}
+        material={material}
+        position={[
+          open ? 0.7 + positionX : -0.03 + positionX,
+          0.26 + positionZ,
+          props?.count === 1
+            ? props.i
+            : props?.count === 2
+            ? props?.i === 0
+              ? -0.3
+              : 0.3
+            : props?.count === 3
+            ? props?.i === 0
+              ? -0.6
+              : props?.i === 1
+              ? 0
+              : 0.6
+            : props?.count === 4
+            ? props?.i === 0
+              ? -0.9
+              : props?.i === 1
+              ? -0.3
+              : props?.i === 2
+              ? 0.3
+              : 0.9
+            : props?.count === 5
+            ? props?.i === 0
+              ? -1.2
+              : props?.i === 1
+              ? -0.6
+              : props?.i === 2
+              ? 0
+              : props?.i === 3
+              ? 0.6
+              : 1.2
+            : 0,
+        ]}
+        rotation={[0, Math.PI / 2, 0]}
+        // scale={scale}
+      />
+    </group>
   );
 };
 
