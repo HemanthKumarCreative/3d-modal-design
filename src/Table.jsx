@@ -13,6 +13,7 @@ import RoseWood from "./tableTextures/RoseWood.jpg";
 import WornWood from "./tableTextures/WornWood.jpg";
 import TableDrawer from "./NewDrawer";
 import Drawer from "./Drawer";
+import { useThree } from "@react-three/fiber";
 
 export function Model(props) {
   const { nodes, materials } = useGLTF(Table);

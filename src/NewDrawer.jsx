@@ -57,7 +57,7 @@ function TableDrawer(props) {
         geometry={nodes.Mesh003_1.geometry}
         material={materials["Tisch_3-03"]}
         onClick={() => setOpen(!open)}
-        scale={[1, 2, 2]}
+        scale={[1, 1, 1]}
       />
     </group>
   );
