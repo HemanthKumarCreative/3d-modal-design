@@ -7,7 +7,7 @@ function TableDrawer(props) {
   const { nodes, materials } = useGLTF(Dresser2);
   const [open, setOpen] = useState(false);
 
-  const { scale } = props;
+  const { scale, verticalCount, j } = props;
 
   const positionX = useMemo(() => -0.35 * (1 - scale[0]), [scale]);
   const positionZ = useMemo(() => -0.3 * (1 - scale[1]), [scale]);
@@ -56,7 +56,7 @@ function TableDrawer(props) {
   return (
     <a.group
       position-x={open === true ? posX : posXClosed}
-      position-y={0.26 + positionZ}
+      position-y={0.26 + positionZ - j / 5}
       position-z={drawerPosition}
       rotation={[1.58, 0, 0]}
       scale={[0.0035, 0.0035, 0.0035]}

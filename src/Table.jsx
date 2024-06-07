@@ -19,6 +19,7 @@ export function Model(props) {
   const { nodes, materials } = useGLTF(Table);
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
+  const { setMf, setPlanePosition } = props;
 
   useEffect(() => {
     document.body.style.cursor = hovered ? "pointer" : "auto";
@@ -81,37 +82,73 @@ export function Model(props) {
   const { length, width, height } = useControls("Table Dimensions", {
     length: { value: 1, min: 1, max: 5, step: 0.1 },
     width: { value: 1, min: 1, max: 5, step: 0.1 },
-    height: { value: 1, min: 1, max: 5, step: 0.1 },
+    height: { value: 1.5, min: 1.5, max: 5.5, step: 0.1 },
   });
 
-  const renderDrawers = (count) => {
-    let drawers = [];
-    for (let i = 0; i < count; i++) {
-      const drawer = (
-        <group key="table-drawer-section">
-          <TableDrawer
-            key="table-drawer"
-            referenceNode={nodes.Cube002.geometry}
-            material={materials.Material}
-            open={open}
-            setOpen={setOpen}
-            scale={[length, height, width]}
-            i={i}
-            count={count}
-          />
-          <Drawer
-            key="table-draw-holder"
-            scale={[length, height, width]}
-            material={materials.Material}
-            i={i}
-            count={count}
-          />
-        </group>
-      );
-      drawers.push(drawer);
+  const renderDrawers = (horizontalCount, verticalCount) => {
+    const fullDrawers = [];
+    for (let j = 0; j < verticalCount; j++) {
+      const drawers = [];
+      for (let i = 0; i < horizontalCount; i++) {
+        const drawer = (
+          <group key="table-drawer-section">
+            <TableDrawer
+              key="table-drawer"
+              referenceNode={nodes.Cube002.geometry}
+              material={materials.Material}
+              open={open}
+              setOpen={setOpen}
+              scale={[length, height, width]}
+              i={i}
+              count={horizontalCount}
+              verticalCount={verticalCount}
+              j={j}
+            />
+            <Drawer
+              key="table-draw-holder"
+              scale={[length, height, width]}
+              material={materials.Material}
+              i={i}
+              count={horizontalCount}
+              verticalCount={verticalCount}
+              j={j}
+            />
+          </group>
+        );
+        drawers.push(drawer);
+      }
+      fullDrawers.push(...drawers);
     }
-    return drawers;
+    console.log({ fullDrawers });
+    return fullDrawers;
   };
+
+  useEffect(() => {
+    setMf({ width, length });
+  }, [length, width]);
+
+  useEffect(() => {
+    setPlanePosition([0, 0.5 - height / 3, 0.5 - length / 3]);
+  }, [height, length]);
+
+  const { camera } = useThree(); // Access camera
+
+  const [zoom, setZoom] = useState(1); // Initial zoom level
+
+  // useEffect(() => {
+  //   const newZoom = Math.min(
+  //     // Calculate zoom based on size changes
+  //     Math.max(
+  //       // Ensure minimum zoom value
+  //       (width + length + height) / 4, // Adjust based on your preference
+  //       1
+  //     ),
+  //     2 // Maximum zoom level (optional)
+  //   );
+  //   setZoom(newZoom);
+  //   camera.fov = newZoom * 60; // Update camera FOV with zoom
+  //   camera.updateProjectionMatrix(); // Update camera projection matrix
+  // }, [length, width, height]);
 
   return (
     <group
@@ -125,8 +162,8 @@ export function Model(props) {
           .getElementById("Table Color." + e.object.material.name)
           ?.focus();
       }}
-      position={[0, 0, 0]}
-      rotation={[0, -Math.PI / 2, -Math.PI / 7]}
+      position={[0, 0.5 - height / 3, 0.5 - length / 3]}
+      rotation={[0, -Math.PI / 2, 0]}
       key="table-group"
     >
       <mesh
@@ -141,7 +178,7 @@ export function Model(props) {
         scale={[length, height, width]}
         key="table-ring"
       />
-      {renderDrawers(Math.floor(width))}
+      {renderDrawers(Math.floor(width), Math.floor(height))}
     </group>
   );
 }

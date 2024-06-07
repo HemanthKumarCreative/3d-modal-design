@@ -4,9 +4,9 @@ import { useFrame } from "@react-three/fiber";
 
 const TableDrawer = (props) => {
   const mesh = useRef();
-  const { scale, open, material } = props;
+  const { scale, open, material, verticalCount, j } = props;
   const outerGeometry = useMemo(
-    () => new THREE.BoxGeometry(0.6, 0.17, 0.68), // Adjust dimensions as needed
+    () => new THREE.BoxGeometry(0.6, 0.2, 0.68), // Adjust dimensions as needed
     []
   );
 
@@ -27,7 +27,7 @@ const TableDrawer = (props) => {
         material={material}
         position={[
           open ? 0.7 + positionX : positionX,
-          0.26 + positionZ,
+          0.24 + positionZ - j / 5,
           props?.count === 1
             ? props.i
             : props?.count === 2
