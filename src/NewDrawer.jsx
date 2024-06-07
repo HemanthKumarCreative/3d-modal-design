@@ -18,7 +18,7 @@ function TableDrawer(props) {
   });
 
   const { posXClosed } = useSpring({
-    posXClosed: open ? 0.7 + positionX : 0.35 + positionX,
+    posXClosed: open ? 0.7 + positionX : 0.38 + positionX,
     config: { tension: 170, friction: 26 },
   });
 

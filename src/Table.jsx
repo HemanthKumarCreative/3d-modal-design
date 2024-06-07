@@ -128,7 +128,7 @@ export function Model(props) {
   }, [length, width]);
 
   useEffect(() => {
-    setPlanePosition([0, 0.5 - height / 3, 0.5 - length / 3]);
+    setPlanePosition([0, 0.5 - height / 3, 0.7 - length / 2]);
   }, [height, length]);
 
   const { camera } = useThree(); // Access camera
