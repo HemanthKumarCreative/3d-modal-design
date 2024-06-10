@@ -10,7 +10,7 @@ const TableDrawer = (props) => {
     []
   );
 
-  const positionX = -0.35 * (0.7 - scale[0]);
+  const positionX = -0.5 * (0.7 - scale[0]);
   const positionZ = -0.001 * scale[1];
 
   useFrame(() => {

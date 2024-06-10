@@ -9,7 +9,7 @@ function TableDrawer(props) {
 
   const { scale, verticalCount, j } = props;
 
-  const positionX = useMemo(() => -0.35 * (1 - scale[0]), [scale]);
+  const positionX = useMemo(() => -0.5 * (0.9 - scale[0]), [scale]);
   const positionZ = -0.0005 * scale[1];
 
   const { posX } = useSpring({
