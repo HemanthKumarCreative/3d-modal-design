@@ -228,8 +228,8 @@ export function Model(props) {
           .getElementById("Table Color." + e.object.material.name)
           ?.focus();
       }}
-      // position={[2 - width / 4, 2 - height / 4, 2 - length / 4]}
-      rotation={[0, Math.PI / 2, 0]}
+      position={[1 - width / 4, 1 - height / 4, 1 - length / 4]}
+      rotation={[-Math.PI / 90, Math.PI / 2, -Math.PI / 90]}
       key="table-group"
     >
       {/* Rounded Table Top */}
@@ -267,13 +267,14 @@ export function Model(props) {
         </group>
       ))}
       {renderDrawers(width, height)}
-      {/* <RoundedBox
+      <RoundedBox
         args={[groundWidth, 0.1, groundLength]}
         radius={0}
         position={groundPosition}
         material={materials.Material}
         receiveShadow
-      /> */}
+        rotation={[0, -Math.PI / 2, -Math.PI]}
+      />
       {/* Ground Surface */}
     </group>
   );
