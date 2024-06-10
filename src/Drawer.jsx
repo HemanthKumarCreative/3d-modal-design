@@ -32,22 +32,22 @@ const TableDrawer = (props) => {
             ? props.i
             : props?.count === 2
             ? props?.i === 0
-              ? -0.3
-              : 0.3
+              ? -0.5
+              : 0.5
             : props?.count === 3
             ? props?.i === 0
-              ? -0.8
+              ? -1.0
               : props?.i === 1
               ? 0
-              : 0.8
+              : 1.0
             : props?.count === 4
             ? props?.i === 0
-              ? -1.2
+              ? -1.4
               : props?.i === 1
               ? -0.6
               : props?.i === 2
               ? 0.6
-              : 1.2
+              : 1.4
             : props?.count === 5
             ? props?.i === 0
               ? -1.5

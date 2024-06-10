@@ -27,17 +27,17 @@ function TableDrawer(props) {
       case 1:
         return 0;
       case 2:
-        return props.i === 0 ? -0.3 : 0.3;
+        return props.i === 0 ? -0.5 : 0.5;
       case 3:
-        return props.i === 0 ? -0.8 : props.i === 1 ? 0 : 0.8;
+        return props.i === 0 ? -1.0 : props.i === 1 ? 0 : 1.0;
       case 4:
         return props.i === 0
-          ? -1.2
+          ? -1.4
           : props.i === 1
           ? -0.6
           : props.i === 2
           ? 0.6
-          : 1.2;
+          : 1.4;
       case 5:
         return props.i === 0
           ? -1.5
