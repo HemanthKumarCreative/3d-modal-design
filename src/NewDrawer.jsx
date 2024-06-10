@@ -10,15 +10,15 @@ function TableDrawer(props) {
   const { scale, verticalCount, j } = props;
 
   const positionX = useMemo(() => -0.35 * (1 - scale[0]), [scale]);
-  const positionZ = useMemo(() => -0.3 * (1 - scale[1]), [scale]);
+  const positionZ = -0.0005 * scale[1];
 
   const { posX } = useSpring({
-    posX: open ? 0.7 + positionX : 0.35 + positionX,
+    posX: open ? 0.8 + positionX : 0.48 + positionX,
     config: { tension: 50, friction: 50 },
   });
 
   const { posXClosed } = useSpring({
-    posXClosed: open ? 0.7 + positionX : 0.38 + positionX,
+    posXClosed: open ? 0.8 + positionX : 0.48 + positionX,
     config: { tension: 170, friction: 26 },
   });
 
@@ -29,25 +29,25 @@ function TableDrawer(props) {
       case 2:
         return props.i === 0 ? -0.3 : 0.3;
       case 3:
-        return props.i === 0 ? -0.6 : props.i === 1 ? 0 : 0.6;
+        return props.i === 0 ? -0.8 : props.i === 1 ? 0 : 0.8;
       case 4:
-        return props.i === 0
-          ? -0.9
-          : props.i === 1
-          ? -0.3
-          : props.i === 2
-          ? 0.3
-          : 0.9;
-      case 5:
         return props.i === 0
           ? -1.2
           : props.i === 1
           ? -0.6
           : props.i === 2
-          ? 0
-          : props.i === 3
           ? 0.6
           : 1.2;
+      case 5:
+        return props.i === 0
+          ? -1.5
+          : props.i === 1
+          ? -0.8
+          : props.i === 2
+          ? 0
+          : props.i === 3
+          ? 0.8
+          : 1.5;
       default:
         return 0;
     }
@@ -56,7 +56,7 @@ function TableDrawer(props) {
   return (
     <a.group
       position-x={open === true ? posX : posXClosed}
-      position-y={0.26 + positionZ - j / 5}
+      position-y={-0.15 + positionZ - j / 5}
       position-z={drawerPosition}
       rotation={[1.58, 0, 0]}
       scale={[0.0035, 0.0035, 0.0035]}

@@ -6,12 +6,12 @@ const TableDrawer = (props) => {
   const mesh = useRef();
   const { scale, open, material, verticalCount, j } = props;
   const outerGeometry = useMemo(
-    () => new THREE.BoxGeometry(0.6, 0.2, 0.68), // Adjust dimensions as needed
+    () => new THREE.BoxGeometry(1, 0.2, 0.68), // Adjust dimensions as needed
     []
   );
 
-  const positionX = -0.35 * (1 - scale[0]);
-  const positionZ = -0.3 * (1 - scale[1]);
+  const positionX = -0.35 * (0.7 - scale[0]);
+  const positionZ = -0.001 * scale[1];
 
   useFrame(() => {
     if (mesh.current) {
@@ -26,8 +26,8 @@ const TableDrawer = (props) => {
         geometry={outerGeometry}
         material={material}
         position={[
-          open ? 0.7 + positionX : positionX,
-          0.24 + positionZ - j / 5,
+          positionX,
+          -0.15 + positionZ - j / 5,
           props?.count === 1
             ? props.i
             : props?.count === 2
@@ -36,28 +36,28 @@ const TableDrawer = (props) => {
               : 0.3
             : props?.count === 3
             ? props?.i === 0
-              ? -0.6
+              ? -0.8
               : props?.i === 1
               ? 0
-              : 0.6
+              : 0.8
             : props?.count === 4
-            ? props?.i === 0
-              ? -0.9
-              : props?.i === 1
-              ? -0.3
-              : props?.i === 2
-              ? 0.3
-              : 0.9
-            : props?.count === 5
             ? props?.i === 0
               ? -1.2
               : props?.i === 1
               ? -0.6
               : props?.i === 2
-              ? 0
-              : props?.i === 3
               ? 0.6
               : 1.2
+            : props?.count === 5
+            ? props?.i === 0
+              ? -1.5
+              : props?.i === 1
+              ? -0.8
+              : props?.i === 2
+              ? 0
+              : props?.i === 3
+              ? 0.8
+              : 1.5
             : 0,
         ]}
         rotation={[0, Math.PI / 2, 0]}

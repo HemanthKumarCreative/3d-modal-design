@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { RoundedBox, Cylinder, Box } from "@react-three/drei";
+import { MeshPhysicalMaterial } from "three";
+import UpdateDrawer1 from "./UpdateDrawer1";
 import { useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import { Color, Material, TextureLoader, RepeatWrapping } from "three";
@@ -16,14 +20,18 @@ import Drawer from "./Drawer";
 import { useThree } from "@react-three/fiber";
 
 export function Model(props) {
+  const tableTopRef = useRef();
   const { nodes, materials } = useGLTF(Table);
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
-  const { setMf, setPlanePosition } = props;
 
   useEffect(() => {
     document.body.style.cursor = hovered ? "pointer" : "auto";
   }, [hovered]);
+
+  useFrame(() => {
+    // (Optional animation)
+  });
 
   // Load textures
   const textureLoader = new TextureLoader();
@@ -85,7 +93,7 @@ export function Model(props) {
   const { length, width, height } = useControls("Table Dimensions", {
     length: { value: 1, min: 1, max: 5, step: 0.1 },
     width: { value: 1, min: 1, max: 5, step: 0.1 },
-    height: { value: 1.5, min: 1.5, max: 5.5, step: 0.1 },
+    height: { value: 1, min: 1, max: 5, step: 0.1 },
   });
 
   const renderDrawers = (horizontalCount, verticalCount) => {
@@ -126,32 +134,87 @@ export function Model(props) {
     return fullDrawers;
   };
 
-  useEffect(() => {
-    setMf({ width, length });
-  }, [length, width]);
-
-  useEffect(() => {
-    setPlanePosition([0, 0.5 - height / 3, 0.7 - length / 2]);
-  }, [height, length]);
-
   const { camera } = useThree(); // Access camera
 
   const [zoom, setZoom] = useState(1); // Initial zoom level
 
-  // useEffect(() => {
-  //   const newZoom = Math.min(
-  //     // Calculate zoom based on size changes
-  //     Math.max(
-  //       // Ensure minimum zoom value
-  //       (width + length + height) / 4, // Adjust based on your preference
-  //       1
-  //     ),
-  //     2 // Maximum zoom level (optional)
-  //   );
-  //   setZoom(newZoom);
-  //   camera.fov = newZoom * 60; // Update camera FOV with zoom
-  //   camera.updateProjectionMatrix(); // Update camera projection matrix
-  // }, [length, width, height]);
+  const bushMaterial = new MeshPhysicalMaterial({
+    color: "#0C2D1B", // Use prop or default value
+    roughness: 0.8, // Rougher surface for the plastic bushes
+    metalness: 0,
+    clearcoat: 0.2,
+  });
+
+  const thickness = 0.1;
+  const cornerRadius = 0.01;
+
+  // Leg dimensions
+  const legWidth = 0.08;
+  const legThickness = 0.08;
+  const legLength = height;
+
+  // Bush dimensions (adjust as needed)
+  const bushHeight = 0.05;
+  const bushRadius = legWidth / 2 + 0.01; // Slightly larger than leg radius
+
+  // Calculate half the table's ACTUAL length and width for leg placement
+  const halfLength = length / 2 + 0.0005;
+  const halfWidth = width / 2 + 0.0005;
+
+  // Adjusted leg positions to align with table corners
+  const legPositions = [
+    [-halfLength + legWidth / 2, -legLength / 2, -halfWidth + legThickness / 2],
+    [halfLength - legWidth / 2, -legLength / 2, -halfWidth + legThickness / 2],
+    [-halfLength + legWidth / 2, -legLength / 2, halfWidth - legThickness / 2],
+    [halfLength - legWidth / 2, -legLength / 2, halfWidth - legThickness / 2],
+  ];
+
+  // Drawer dimensions (adjusted for length-wise placement)
+  const drawerWidth = length - 0.01;
+  const drawerHeight = legLength - 0.3;
+  const drawerDepth = drawerHeight - 0.1; // Adjusted to table width
+  const drawerSlideLength = 0.5;
+  const grillThickness = 0.01;
+
+  // Track drawer open state
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Handle drawer click
+  const handleDrawerClick = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  // Ground position adjusted to be below the table
+  const groundPosition = [0, -legLength - thickness / 2, 0];
+
+  // Ground dimensions
+  const groundWidth = 7;
+  const groundLength = 7;
+
+  // Track drawer open states individually
+  const [drawer1Open, setDrawer1Open] = useState(false);
+  const [drawer2Open, setDrawer2Open] = useState(false);
+
+  // Handle drawer clicks individually
+  const handleDrawer1Click = () => {
+    setDrawer1Open(!drawer1Open);
+  };
+
+  const handleDrawer2Click = () => {
+    setDrawer2Open(!drawer2Open);
+  };
+
+  // Handle dimensions and material
+  const handleWidth = 0.12;
+  const handleHeight = 0.03;
+  const handleDepth = 0.04;
+  const legProjectionWidth = 0.02; // Width of each leg projection
+  const legProjectionHeight = 0.03; // Height of each leg projection
+  const handleMaterial = new MeshPhysicalMaterial({
+    color: 0x999999,
+    roughness: 0.5,
+    metalness: 0.8,
+  });
 
   return (
     <group
@@ -165,14 +228,53 @@ export function Model(props) {
           .getElementById("Table Color." + e.object.material.name)
           ?.focus();
       }}
-      position={[0, 0.5 - height / 3, 0.5 - length / 3]}
+      // position={[2 - width / 4, 2 - height / 4, 2 - length / 4]}
       rotation={[0, Math.PI / 2, 0]}
       key="table-group"
     >
-      <TableModal material={materials.Material} />
-      {/* {renderDrawers(Math.floor(width), Math.floor(height))} */}
+      {/* Rounded Table Top */}
+      <RoundedBox
+        args={[length, thickness, width]}
+        radius={cornerRadius}
+        smoothness={4}
+        material={materials.Material}
+      />
+      {/* Legs (Attached to Table Top) */}
+      {legPositions.map((pos, index) => (
+        <group key={index}>
+          {/* Leg */}
+          <RoundedBox
+            args={[legWidth, legLength, legThickness]}
+            radius={cornerRadius}
+            smoothness={4}
+            position={pos}
+            material={materials.Material}
+            castShadow
+          />
+          {/* Bush (Positioned precisely at the Bottom of the Leg) */}
+          <RoundedBox
+            args={[legWidth + 0.005, bushHeight, legThickness + 0.005]}
+            radius={cornerRadius / 2}
+            smoothness={4}
+            position={[
+              pos[0],
+              pos[1] - legLength / 2, // Aligned perfectly with the bottom of the leg
+              pos[2],
+            ]}
+            material={bushMaterial}
+            castShadow
+          />
+        </group>
+      ))}
+      {renderDrawers(width, height)}
+      {/* <RoundedBox
+        args={[groundWidth, 0.1, groundLength]}
+        radius={0}
+        position={groundPosition}
+        material={materials.Material}
+        receiveShadow
+      /> */}
+      {/* Ground Surface */}
     </group>
   );
 }
-
-useGLTF.preload(Table);
